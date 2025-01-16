@@ -12,7 +12,7 @@ using namespace Catch::Matchers;
 
 std::vector<VecUtils::Vec3> loadVectors(std::string filename)
 {
-    std::vector<Vec3> vectors;
+    std::vector<VecUtils::Vec3> vectors;
     std::ifstream filestream(filename);
     if (!filestream)
     {
