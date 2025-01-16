@@ -3,8 +3,34 @@
 #include "VectorUtils.hpp"
 #include "Rendering.hpp"
 #include <cmath> 
+#include <vector>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 using namespace Catch::Matchers;
+
+std::vector<VecUtils::Vec3> loadVectors(std::string filename)
+{
+    std::vector<Vec3> vectors;
+    std::ifstream filestream(filename);
+    if (!filestream)
+    {
+        throw std::runtime_error("File " + filename + " not found.");
+    }
+    std::string line;
+    int line_num = 0;
+    while (std::getline(filestream, line))
+    {
+        std::istringstream line_stream(line);
+        VecUtils::Vec3 v;
+        line_stream >> v[0];
+        line_stream >> v[1];
+        line_stream >> v[2];
+        vectors.push_back(v);
+    }
+    return vectors;
+}
 
 void compareVectors(VecUtils::Vec3 value, VecUtils::Vec3 expectation, double delta=0.0001)
 {
@@ -60,4 +86,18 @@ TEST_CASE("Test Norm", "[Test Vector Maths]")
     compareVectors(norm(v1), {sqrt(0.5), sqrt(0.5), 0});
 
     compareVectors(norm({1, -1, 1}), {sqrt(1./3.), -sqrt(1./3.), sqrt(1./3.)});
+}
+
+TEST_CASE("Test Directions", "[Test Nested Loop]")
+{
+    using namespace VecUtils;
+    std::vector<Vec3> expectation = loadVectors("data/Vectors.txt");
+    std::vector<Vec3> result = Render::genDirectionList(10, 10);
+
+    REQUIRE(expectation.size() == result.size());
+
+    for(size_t i = 0; i < expectation.size(); i++)
+    {
+        compareVectors(expectation[i], result[i]);
+    }
 }
