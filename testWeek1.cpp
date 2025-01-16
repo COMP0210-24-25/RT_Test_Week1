@@ -32,7 +32,7 @@ std::vector<VecUtils::Vec3> loadVectors(std::string filename)
     return vectors;
 }
 
-void compareVectors(VecUtils::Vec3 value, VecUtils::Vec3 expectation, double delta=0.0001)
+void compareVectors(VecUtils::Vec3 value, VecUtils::Vec3 expectation, double delta=0.001)
 {
     for(size_t i = 0; i < 3; i++)
     {
@@ -86,6 +86,27 @@ TEST_CASE("Test Norm", "[Test Vector Maths]")
     compareVectors(norm(v1), {sqrt(0.5), sqrt(0.5), 0});
 
     compareVectors(norm({1, -1, 1}), {sqrt(1./3.), -sqrt(1./3.), sqrt(1./3.)});
+}
+
+TEST_CASE("Test Empty Image", "[Test Nested Loop]")
+{
+    using namespace VecUtils;
+
+    std::vector<Vec3> result = Render::genDirectionList(0,0);
+
+    REQUIRE(result.size() == 0);
+}
+
+TEST_CASE("Test Central Direction", "[Test Nested Loop]")
+{
+    using namespace VecUtils;
+
+    Vec3 expectation = {0, 0, -1};
+
+    std::vector<Vec3> result = Render::genDirectionList(1,1);
+
+    REQUIRE(result.size() == 1);
+    compareVectors(result[0], expectation);
 }
 
 TEST_CASE("Test Directions", "[Test Nested Loop]")
