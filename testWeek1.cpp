@@ -6,7 +6,7 @@
 
 using namespace Catch::Matchers;
 
-void compareVectors(Vec3 value, Vec3 expectation, double delta=0.0001)
+void compareVectors(VecUtils::Vec3 value, VecUtils::Vec3 expectation, double delta=0.0001)
 {
     for(size_t i = 0; i < 3; i++)
     {
