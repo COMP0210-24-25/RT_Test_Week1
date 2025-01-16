@@ -59,5 +59,5 @@ TEST_CASE("Test Norm", "[Test Vector Maths]")
     Vec3 v1{1, 1, 0};
     compareVectors(norm(v1), {sqrt(0.5), sqrt(0.5), 0});
 
-    compareVectors(norm({1, -1, 1}), {sqrt(1./3.), sqrt(-1./3.), sqrt(1./3.)});
+    compareVectors(norm({1, -1, 1}), {sqrt(1./3.), -sqrt(1./3.), sqrt(1./3.)});
 }
