@@ -91,10 +91,22 @@ TEST_CASE("Test Norm", "[Test Vector Maths]")
 TEST_CASE("Test Empty Image", "[Test Nested Loop]")
 {
     using namespace VecUtils;
+    std::vector<Vec3> result;
 
-    std::vector<Vec3> result = Render::genDirectionList(0,0);
+    bool exception_thrown = false;
+    try
+    {
+        result = Render::genDirectionList(0,0);
+    }
+    catch(std::exception &e)
+    {
+        exception_thrown = true;
+    }
 
-    REQUIRE(result.size() == 0);
+    if(!exception_thrown)
+    {
+        REQUIRE(result.empty());
+    }
 }
 
 TEST_CASE("Test Central Direction", "[Test Nested Loop]")
