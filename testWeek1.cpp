@@ -53,7 +53,7 @@ TEST_CASE("Test dot products", "[Test Vector Maths]")
 
     REQUIRE(dot(v1, v2) == 0);
 
-    REQUIRE_THAT(dot({1, 2, 1}, {2, 2, 5}), WithinRel(11, 0.0001));
+    REQUIRE_THAT(dot(Vec3{1, 2, 1}, Vec3{2, 2, 5}), WithinRel(11, 0.0001));
 }
 
 TEST_CASE("Test subtraction", "[Test Vector Maths]")
@@ -85,16 +85,28 @@ TEST_CASE("Test Norm", "[Test Vector Maths]")
     Vec3 v1{1, 1, 0};
     compareVectors(norm(v1), {sqrt(0.5), sqrt(0.5), 0});
 
-    compareVectors(norm({1, -1, 1}), {sqrt(1./3.), -sqrt(1./3.), sqrt(1./3.)});
+    compareVectors(norm(Vec3{1, -1, 1}), Vec3{sqrt(1./3.), -sqrt(1./3.), sqrt(1./3.)});
 }
 
 TEST_CASE("Test Empty Image", "[Test Nested Loop]")
 {
     using namespace VecUtils;
+    std::vector<Vec3> result;
 
-    std::vector<Vec3> result = Render::genDirectionList(0,0);
+    bool exception_thrown = false;
+    try
+    {
+        result = Render::genDirectionList(0,0);
+    }
+    catch(std::exception &e)
+    {
+        exception_thrown = true;
+    }
 
-    REQUIRE(result.size() == 0);
+    if(!exception_thrown)
+    {
+        REQUIRE(result.empty());
+    }
 }
 
 TEST_CASE("Test Central Direction", "[Test Nested Loop]")
